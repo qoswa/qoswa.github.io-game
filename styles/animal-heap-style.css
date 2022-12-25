@@ -1,0 +1,32 @@
+html, body{
+    height: 100%;
+    margin: 0;
+    background-color: #ffb8bf;
+}
+
+#container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+}
+
+table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 60px;
+}
+td {
+    width: 60px;
+    height: 60px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+
+img {
+    position: absolute;
+}

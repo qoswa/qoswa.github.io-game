@@ -1,0 +1,29 @@
+html, body{
+    height: 100%;
+    margin: 0;
+    background-color: #ffb8bf;
+}
+
+#container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+}
+
+table {
+    border-collapse: collapse;
+}
+td {
+    width: 60px;
+    height: 60px;
+    vertical-align: middle;
+
+}
+
+table img {
+    vertical-align: middle;
+    width: 60px;
+    height: 60px;
+}
+
