@@ -8,7 +8,7 @@ span.style.padding = "5px";
 span.style.left = "30px";
 span.style.bottom = "30px";
 
-var countDownDate = new Date(new Date().getTime() + 1000 * 60 * 2);
+var countDownDate = new Date(new Date().getTime() + 1000 * 60 * 10);
 
 var interval = setInterval(function() {
 
