@@ -33,7 +33,7 @@ for (var i = 0; i < 5; i ++) {
     var xLow = pathWidth / 5 * i;
     var xHigh = pathWidth / 5 * (i + 1);
     var randomX = generateRandomInteger(xLow, xHigh) + startPoint[0];
-    var yLow = 0;
+    var yLow = 200;
     var yHigh = document.body.offsetHeight;
     var randomY = generateRandomInteger(yLow, yHigh);
     var points = [randomX, randomY];
@@ -55,7 +55,6 @@ function drawLine(ctx, begin, end, stroke = 'red', width = 1) {
     ctx.moveTo(...begin);
     ctx.lineTo(...end);
     ctx.stroke();
-    console.log(ctx.line)
 }
 
 
@@ -63,16 +62,16 @@ generateRandomPoints();
 console.log(randomPoints)
 
 for (var i = 0; i < 6; i++) {
-    drawLine(ctx, randomPoints[i], randomPoints[i+1], 'red', 10);
+    drawLine(ctx, randomPoints[i], randomPoints[i+1], 'red', 15 );
 }
 
 function randomizeAnimals() {
-            puppy.style.top = Math.round(Math.random() * Math.abs(document.body.offsetHeight - puppy.naturalHeight)) + 'px';
+            puppy.style.top = generateRandomInteger(200, document.body.offsetHeight - puppy.naturalHeight) + 'px';
             puppy.style.left = Math.round(Math.random() * Math.abs(document.body.offsetWidth / 4 - puppy.naturalWidth)) + 'px';
             container.appendChild(puppy);
             dragElement(puppy);
 
-            mother.style.top = Math.round(Math.random() * Math.abs(document.body.offsetHeight - mother.naturalHeight)) + 'px';
+            mother.style.top = generateRandomInteger(200, document.body.offsetHeight - mother.naturalHeight) + 'px';
             mother.style.left = Math.round(Math.random()  * Math.abs(document.body.offsetWidth / 2 - mother.naturalWidth * 2) + document.body.offsetWidth / 2) + 'px';
             container.appendChild(mother);
 }
@@ -108,16 +107,14 @@ function dragElement(elmnt) {
     var xz = getOffset(puppy).left
     var yz = getOffset(puppy).top
 
-    console.log(ctx.isPointInStroke(xz, yz))
 
-//        ctx.fillRect(getOffset(puppy).left, getOffset(puppy).top, 10, 10);
-//      	var imgData = ctx.getImageData(e.pageX, e.pageY, 1, 1);
-//      	console.log(imgData)
-//      	red = imgData.data[0];
-//      	green = imgData.data[1];
-//      	blue = imgData.data[2];
-//      	alpha = imgData.data[3];
-//      	console.log(red + " " + green + " " + blue + " " + alpha);
+    if (checkIfBlank(e.pageX, e.pageY)) {
+        badFinish()
+    }
+
+    if(elementsOverlap(mother, puppy)) {
+        finish()
+    }
 
   }
 
@@ -126,7 +123,7 @@ function dragElement(elmnt) {
       	red = imgData.data[0];
       	green = imgData.data[1];
       	blue = imgData.data[2];
-      	if (red == 0 && green == 0 || blue == 0) {
+      	if (red == 0 && green == 0 && blue == 0) {
       	    return true
       	} else {
       	    return false
@@ -137,30 +134,20 @@ function dragElement(elmnt) {
     // stop moving when mouse button is released:
     document.onmouseup = null;
     document.onmousemove = null;
-    validate();
   }
 
-  function validate() {
-//    var imageX = getOffset(puppy).left + puppy.offsetWidth / 2
-//    var imageY = getOffset(puppy).top + puppy.offsetHeight / 2
-//    var imagePoint = [imageX, imageY]
-//    var data = ctx.getImageData(imageX, imageY, 1, 1).data;
-//    var rgb = [ data[0], data[1], data[2] ];
-//    console.log(rgb);
-  }
 }
 
-function isInBounds(parent, child) {
-  var box1coords = parent.getBoundingClientRect();
-  var box2coords = child.getBoundingClientRect();
-  if (
-    box2coords.top < box1coords.top ||
-    box2coords.right > box1coords.right ||
-    box2coords.bottom > box1coords.bottom ||
-    box2coords.left < box1coords.left) {
-    return false;
-  }
-  return true;
+function elementsOverlap(el1, el2) {
+  const domRect1 = el1.getBoundingClientRect();
+  const domRect2 = el2.getBoundingClientRect();
+
+  return !(
+    domRect1.top > domRect2.bottom ||
+    domRect1.right < domRect2.left ||
+    domRect1.bottom < domRect2.top ||
+    domRect1.left > domRect2.right
+  );
 }
 
 function getOffset(el) {
@@ -178,4 +165,10 @@ function finish() {
     localStorage.currentPoints = parseFloat(localStorage.currentPoints) + points;
     alert('Вы набрали ' + points + ' очков')
     window.location = 'animal-heap.html'
+}
+
+function badFinish() {
+    localStorage.currentPoints = 0;
+    alert('Вы не прошли уровень, курсор сошел с пути')
+    window.location = 'index.html'
 }

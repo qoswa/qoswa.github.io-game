@@ -16,6 +16,11 @@ html, body{
       position: absolute;
 }
 
+h1 {
+    position: fixed;
+    left: 30px;
+    top: 30px;
+}
 
 img {
     position: absolute;
