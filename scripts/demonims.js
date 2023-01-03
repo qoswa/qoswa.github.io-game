@@ -30,7 +30,7 @@ button.onclick = function() {
         }
     })
     .forEach((child) => {
-        if (demonimsMap.get(child.getAttribute("placeHolder")) == child.value) {
+        if (demonimsMap.get(child.getAttribute("placeHolder")).toLowerCase() == child.value.toLowerCase()) {
             points++;
         }
     })
