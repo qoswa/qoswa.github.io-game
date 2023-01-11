@@ -121,6 +121,12 @@ function dragElement(elmnt) {
 
 
     if (checkIfBlank(e.pageX, e.pageY)) {
+        document.onmousedown = null;
+        document.onmouseup = null;
+        document.onmousemove = null;
+        e.onmousedown = null;
+        e.onmouseup = null;
+        e.onmousemove = null;
         badFinish()
     }
 
