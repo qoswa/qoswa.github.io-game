@@ -8,6 +8,7 @@ puppy.src = "images/puppy.png";
 var mother = document.createElement('img');
 mother.src = "images/mother.png";
 
+
 randomizeAnimals()
 
 var ctx = canvas.getContext("2d");
@@ -21,7 +22,7 @@ function generateRandomPoints() {
 var numberOfPoints = 5;
 var points = [];
 
-var startPoint = [getOffset(puppy).left + puppy.naturalWidth / 2, getOffset(puppy).top + puppy.naturalHeight / 2]
+var startPoint = [(getOffset(puppy).left + puppy.naturalWidth / 2) - 25 , getOffset(puppy).top + puppy.naturalHeight / 2]
 
 var endPoint  = [getOffset(mother).left + mother.naturalWidth / 2, getOffset(mother).top + mother.naturalHeight / 2]
 
@@ -29,20 +30,27 @@ var pathWidth = endPoint[0] - startPoint[0];
 var pathHeight = endPoint[1] - endPoint[1];
 console.log(endPoint);
 randomPoints.push(startPoint)
+
 for (var i = 0; i < 5; i ++) {
     var xLow = pathWidth / 5 * i;
     var xHigh = pathWidth / 5 * (i + 1);
-    var randomX = generateRandomInteger(xLow, xHigh) + startPoint[0];
-    var yLow = 200;
-    var yHigh = document.body.offsetHeight;
-    var randomY = generateRandomInteger(yLow, yHigh);
-    var points = [randomX, randomY];
-    randomPoints.push(points)
+    if (i == 0) {
+        var secondPoint = [randomPoints[0][0] + 75, randomPoints[0][1]]
+        randomPoints.push(secondPoint)
+    } else {
+        var randomX = generateRandomInteger(xLow, xHigh) + startPoint[0];
+        var yLow = 200;
+        var yHigh = document.body.offsetHeight - 200;
+        var randomY = generateRandomInteger(yLow, yHigh);
+        var points = [randomX, randomY];
+        randomPoints.push(points)
+    }
 }
 randomPoints.push(endPoint)
 }
 
-function drawLine(ctx, begin, end, stroke = 'red', width = 1) {
+function drawLine(ctx, stroke = 'red', width = 50) {
+
     if (stroke) {
         ctx.strokeStyle = stroke;
     }
@@ -50,10 +58,16 @@ function drawLine(ctx, begin, end, stroke = 'red', width = 1) {
     if (width) {
         ctx.lineWidth = width;
     }
+    ctx.lineJoin = "round";
 
     ctx.beginPath();
-    ctx.moveTo(...begin);
-    ctx.lineTo(...end);
+
+//    var nb = [begin[0], begin[1]]
+    ctx.moveTo(...randomPoints[0]);
+
+    for (var i = 0; i < 6; i++) {
+        ctx.lineTo(...randomPoints[i+1]);
+    }
     ctx.stroke();
 }
 
@@ -61,12 +75,10 @@ function drawLine(ctx, begin, end, stroke = 'red', width = 1) {
 generateRandomPoints();
 console.log(randomPoints)
 
-for (var i = 0; i < 6; i++) {
-    drawLine(ctx, randomPoints[i], randomPoints[i+1], 'red', 15 );
-}
+drawLine(ctx, 'red', 50 );
 
 function randomizeAnimals() {
-            puppy.style.top = generateRandomInteger(200, document.body.offsetHeight - puppy.naturalHeight) + 'px';
+            puppy.style.top = generateRandomInteger(200, document.body.offsetHeight - puppy.naturalHeight - 400) + 'px';
             puppy.style.left = Math.round(Math.random() * Math.abs(document.body.offsetWidth / 4 - puppy.naturalWidth)) + 'px';
             container.appendChild(puppy);
             dragElement(puppy);
