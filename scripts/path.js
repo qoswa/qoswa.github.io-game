@@ -22,7 +22,7 @@ function generateRandomPoints() {
 var numberOfPoints = 5;
 var points = [];
 
-var startPoint = [(getOffset(puppy).left + puppy.naturalWidth / 2) - 25 , getOffset(puppy).top + puppy.naturalHeight / 2]
+var startPoint = [(getOffset(puppy).left + puppy.naturalWidth / 2) - 25 , (getOffset(puppy).top + puppy.naturalHeight / 2) + 20]
 
 var endPoint  = [getOffset(mother).left + mother.naturalWidth / 2, getOffset(mother).top + mother.naturalHeight / 2]
 
